@@ -39,9 +39,9 @@ description=reproduce
 #*******************Dataset*******************
 #Choose the dataset folder
 benchmark=ImageNet1K
-datadir=/path/to/the/data
-dataset=$datadir/$benchmark
-num_classes=1000
+datadir=/content/data_aug
+dataset=$datadir/
+num_classes=3
 #*********************************************
 
 #****************Hyper-parameters*************
