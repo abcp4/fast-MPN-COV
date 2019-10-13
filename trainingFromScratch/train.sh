@@ -49,7 +49,7 @@ num_classes=3
 # Freeze the layers before a certain layer.
 freeze_layer=0
 # Batch size
-batchsize=60
+batchsize=32
 # The number of total epochs for training
 epoch=65
 # The inital learning rate
