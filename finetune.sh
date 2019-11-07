@@ -99,7 +99,7 @@ python main.py $dataset\
                --lr $lr\
                --lr-method $lr_method\
                --lr-params $lr_params\
-               -j 8\
+               -j 2\
                -b $batchsize\
                --num-classes $num_classes\
                --representation $image_representation\
@@ -120,7 +120,7 @@ python main.py $dataset\
                --lr $lr\
                --lr-method $lr_method\
                --lr-params $lr_params\
-               -j 8\
+               -j 2\
                -b $batchsize\
                --num-classes $num_classes\
                --representation $image_representation\
