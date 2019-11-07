@@ -39,7 +39,7 @@ description=reproduce
 #*******************Dataset*******************
 #Choose the dataset folder
 benchmark=ImageNet1K
-datadir=/content/data_aug
+datadir=/content/data
 #dataset=$datadir/$benchmark
 dataset=$datadir/
 num_classes=5
