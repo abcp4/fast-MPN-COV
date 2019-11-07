@@ -228,7 +228,7 @@ def main():
     if evaluate_transforms is not None:
         evaluate_loader = torch.utils.data.DataLoader(
             #datasets.ImageFolder(valdir, evaluate_transforms),
-            datasets.ImageFolderWithPaths(valdir, evaluate_transforms),
+            ImageFolderWithPaths(valdir, evaluate_transforms),
             batch_size=args.batch_size, shuffle=False,
             num_workers=args.workers, pin_memory=True)
 
