@@ -220,7 +220,8 @@ def main():
         num_workers=args.workers, pin_memory=True, sampler=train_sampler)
 
     val_loader = torch.utils.data.DataLoader(
-        datasets.ImageFolder(valdir, val_transforms),
+        #datasets.ImageFolder(valdir, val_transforms),
+        ImageFolderWithPaths(valdir, evaluate_transforms),
         batch_size=args.batch_size, shuffle=False,
         num_workers=args.workers, pin_memory=True)
 
