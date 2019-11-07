@@ -44,8 +44,8 @@ description=reproduce
 #num_classes=#classes
 benchmark=ImageNet1K
 datadir=/content/data
-#dataset=$datadir/$benchmark
-dataset=$datadir/
+dataset=$datadir/$benchmark
+#dataset=$datadir/
 num_classes=3
 #*********************************************
 
@@ -71,8 +71,8 @@ weight_decay=1e-3
 classifier_factor=5
 #*********************************************
 echo "Start finetuning!"
-#modeldir=Results/Finetune-$benchmark-$arch-$image_representation-$description-lr$lr-bs$batchsize
-modeldir=Results/
+modeldir=Results/Finetune-$benchmark-$arch-$image_representation-$description-lr$lr-bs$batchsize
+#modeldir=Results/
 
 echo "lol1"
 if [ ! -d  "Results" ]; then
