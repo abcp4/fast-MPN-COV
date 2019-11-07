@@ -19,8 +19,8 @@ Modify the following settings as you wish !
 #mpncovresnet: mpncovresnet50, mpncovresnet101
 #inceptionv3
 #You can also add your own network in src/network
-#arch=mpncovresnet50
-arch=resnet50
+arch=mpncovresnet50
+#arch=resnet50
 #*********************************************
 
 #***************global method****************
@@ -53,9 +53,9 @@ num_classes=3
 #****************Hyper-parameters*************
 
 # Freeze the layers before a certain layer.
-freeze_layer=0
+freeze_layer=50
 # Batch size
-batchsize=10
+batchsize=32
 # The number of total epochs for training
 epoch=100
 # The inital learning rate
