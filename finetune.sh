@@ -71,8 +71,8 @@ weight_decay=1e-3
 classifier_factor=5
 #*********************************************
 echo "Start finetuning!"
-modeldir=Results/Finetune-$benchmark-$arch-$image_representation-$description-lr$lr-bs$batchsize
-#modeldir=Results/
+#modeldir=Results/Finetune-$benchmark-$arch-$image_representation-$description-lr$lr-bs$batchsize
+modeldir=Results/
 
 echo "lol1"
 if [ ! -d  "Results" ]; then
