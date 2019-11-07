@@ -45,8 +45,8 @@ description=reproduce
 #num_classes=#classes
 benchmark=ImageNet1K
 datadir=/content/data
-dataset=$datadir/$benchmark
-#dataset=$datadir/
+#dataset=$datadir/$benchmark
+dataset=$datadir/
 num_classes=3
 #*********************************************
 
