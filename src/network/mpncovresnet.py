@@ -91,9 +91,9 @@ def mpncovresnet50(pretrained=False, **kwargs):
     """
     model = MPNCOVResNet(Bottleneck, [3, 4, 6, 3], **kwargs)
     if pretrained:
-        #model.load_state_dict(model_zoo.load_url(model_urls['mpncovresnet50']))
+        model.load_state_dict(model_zoo.load_url(model_urls['mpncovresnet50']))
         #model.load_state_dict('/content/model.pth')
-        model= torch.load('/content/model.pth')
+        #model= torch.load('/content/model.pth')
     return model
 
 
