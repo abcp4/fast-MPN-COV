@@ -22,7 +22,21 @@ import torch.optim
 import torch.utils.data
 import torch.utils.data.distributed
 
+class ImageFolderWithPaths(datasets.ImageFolder):
+    """Custom dataset that includes image file paths. Extends
+    torchvision.datasets.ImageFolder
+    """
 
+    # override the __getitem__ method. this is the method that dataloader calls
+    def __getitem__(self, index):
+        # this is what ImageFolder normally returns 
+        original_tuple = super(ImageFolderWithPaths, self).__getitem__(index)
+        # the image file path
+        path = self.imgs[index][0]
+        # make a new tuple that includes original and the path
+        tuple_with_path = (original_tuple + (path,))
+        return tuple_with_path
+      
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
@@ -213,7 +227,8 @@ def main():
     ## init evaluation data loader
     if evaluate_transforms is not None:
         evaluate_loader = torch.utils.data.DataLoader(
-            datasets.ImageFolder(valdir, evaluate_transforms),
+            #datasets.ImageFolder(valdir, evaluate_transforms),
+            datasets.ImageFolderWithPaths(valdir, evaluate_transforms),
             batch_size=args.batch_size, shuffle=False,
             num_workers=args.workers, pin_memory=True)
 
@@ -334,7 +349,7 @@ def validate(val_loader, model, criterion):
 
     with torch.no_grad():
         end = time.time()
-        for i, (input, target) in enumerate(val_loader):
+        for i, (input, target,z) in enumerate(val_loader):
             if args.gpu is not None:
                 input = input.cuda(args.gpu, non_blocking=True)
             target = target.cuda(args.gpu, non_blocking=True)
@@ -361,6 +376,7 @@ def validate(val_loader, model, criterion):
             preds = np.concatenate((preds,predicted.cpu().numpy().ravel()))
             targets = np.concatenate((targets,target.cpu().numpy().ravel()))
             logits_pred.append(output.data.cpu().numpy())
+            names.append(z)
 
             # measure elapsed time
             batch_time.update(time.time() - end)
