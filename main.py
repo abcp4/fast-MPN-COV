@@ -96,6 +96,13 @@ best_prec1 = 0
 
 
 def main():
+    statsDict = {}
+    statsDict['type']=[]
+    statsDict['logits'] =[]
+    statsDict['names']=[]
+    statsDict['acc']=[]
+    statsDict['report']=[]
+    pickle.dump(statsDict,open('statsDict.p','wb'))
     global args, best_prec1
     args = parser.parse_args()
     print(args)
@@ -204,6 +211,7 @@ def main():
     # Data loading code
     traindir = os.path.join(args.data, 'train')
     valdir = os.path.join(args.data, 'val')
+    testdir = os.path.join(args.data, 'test')
     train_transforms, val_transforms, evaluate_transforms = preprocess_strategy(args.benchmark)
 
     train_dataset = datasets.ImageFolder(
@@ -229,7 +237,7 @@ def main():
     if evaluate_transforms is not None:
         evaluate_loader = torch.utils.data.DataLoader(
             #datasets.ImageFolder(valdir, evaluate_transforms),
-            ImageFolderWithPaths(valdir, evaluate_transforms),
+            ImageFolderWithPaths(testdir, evaluate_transforms),
             batch_size=args.batch_size, shuffle=False,
             num_workers=args.workers, pin_memory=True)
 
@@ -250,6 +258,10 @@ def main():
         trainObj, top1, top5 = train(train_loader, model, criterion, optimizer, epoch)
         # evaluate on validation set
         valObj, prec1, prec5 = validate(val_loader, model, criterion)
+        
+        #minha add: test
+        validate(evaluate_loader, model, criterion,valtype = 'test')
+        
         # update stats
         stats_._update(trainObj, top1, top5, valObj, prec1, prec5)
         # remember best prec@1 and save checkpoint
@@ -277,7 +289,7 @@ def main():
         print("=> start evaluation")
         best_model = torch.load(model_file)
         model.load_state_dict(best_model['state_dict'])
-        validate(evaluate_loader, model, criterion)
+        validate(evaluate_loader, model, criterion,valtype = 'test')
 
 
 
@@ -332,7 +344,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     return losses.avg, top1.avg, top5.avg
 
 
-def validate(val_loader, model, criterion):
+def validate(val_loader, model, criterion,valtype = "val"):
     batch_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
@@ -414,6 +426,14 @@ def validate(val_loader, model, criterion):
         log_score.write('accuracy:'+str(acc)+'\n')
         log_score.write('report: '+str(cr)+'\n')
         log_score.close()
+        
+        statsDict = pickle.load(open('statsDict.p','rb'))
+        statsDict['type'].append(valtype)
+        statsDict['logits'].append(logits_pred)
+        statsDict['names'].append(names)
+        statsDict['acc'].append(acc)
+        statsDict['report'].append(str(cr))
+        pickle.dump(statsDict,open('statsDict.p','wb'))
         print("SAVED!!")
 
     return losses.avg, top1.avg, top5.avg
